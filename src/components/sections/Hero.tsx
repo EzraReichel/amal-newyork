@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -93,17 +92,15 @@ export default function Hero() {
           }}
         />
 
-        {/* REPLACE: swap next/image src with final product shot */}
-        <div className="absolute inset-0 animate-ken-burns">
-          <Image
-            src="/images/hero-belt.png"
-            alt="Amal New York — hero"
-            fill
-            priority
-            quality={90}
-            className="object-cover object-center"
-          />
-        </div>
+        {/* REPLACE: swap background-image url with final product shot */}
+        <div
+          className="absolute inset-0 animate-ken-burns"
+          style={{
+            backgroundImage: "url('/images/hero-belt.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
 
         {/* Gradient overlay — keeps top/bottom legible, lets middle breathe */}
         <div
