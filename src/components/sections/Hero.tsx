@@ -96,7 +96,7 @@ export default function Hero() {
         <div
           className="absolute inset-0 animate-ken-burns"
           style={{
-            backgroundImage: "url('/images/hero-belt.png')",
+            backgroundImage: "url('/images/hero.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
