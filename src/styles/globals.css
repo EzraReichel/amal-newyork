@@ -53,6 +53,68 @@ img {
   100% { transform: translateY(200%); opacity: 0; }
 }
 
+/* ── Leather quilt grid ───────────────────────────────────────── */
+.leather-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  width: 100%;
+  height: 100%;
+  gap: 0;
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .leather-grid {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .leather-grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(10, minmax(80px, 1fr));
+    height: auto;
+  }
+}
+
+/* ── Swatch 3D flip ───────────────────────────────────────────── */
+.swatch-item {
+  position: relative;
+  perspective: 900px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.swatch-item:active {
+  transform: scale(0.97);
+  transition: transform 100ms ease;
+}
+
+.swatch-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.swatch-item:hover .swatch-inner,
+.swatch-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.swatch-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.swatch-back-face {
+  transform: rotateY(180deg);
+}
+
 @layer utilities {
   .section-dark {
     background: #0A0A0A;
