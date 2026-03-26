@@ -96,7 +96,7 @@ export default function Hero() {
         {/* REPLACE: swap next/image src with final product shot */}
         <div className="absolute inset-0 animate-ken-burns">
           <Image
-            src="/images/hero-belt.jpg"
+            src="/images/hero-belt.png"
             alt="Amal New York — hero"
             fill
             priority
