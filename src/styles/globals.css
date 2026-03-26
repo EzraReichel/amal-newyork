@@ -41,6 +41,11 @@ img {
   will-change: transform;
 }
 
+@keyframes scroll-pulse {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.4; }
+}
+
 @keyframes scroll-travel {
   0%   { transform: translateY(-100%); opacity: 0; }
   20%  { opacity: 1; }

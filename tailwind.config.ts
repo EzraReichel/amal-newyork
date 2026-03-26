@@ -26,6 +26,7 @@ const config: Config = {
         display: ['var(--font-display)', '"Cormorant Garamond"', 'Georgia', 'serif'],
         body: ['var(--font-body)', '"Inter"', 'system-ui', 'sans-serif'],
         editorial: ['var(--font-editorial)', '"Cormorant"', 'Georgia', 'serif'],
+        script: ['var(--font-script)', '"Great Vibes"', 'cursive'],
       },
       letterSpacing: {
         luxury: '0.2em',

@@ -1,99 +1,78 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
-// Base64-encoded SVG noise pattern (200x200, feTurbulence baseFrequency 0.9, numOctaves 4)
 const NOISE_SVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)'/%3E%3C/svg%3E")`;
 
 export default function Hero() {
-  const containerRef = useRef<HTMLElement>(null);
-  const datelineRef = useRef<HTMLParagraphElement>(null);
-  const lineTopRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const taglineRef = useRef<HTMLAnchorElement>(null);
-  const lineBottomRef = useRef<HTMLDivElement>(null);
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const containerRef    = useRef<HTMLElement>(null);
+  const bgLayerRef      = useRef<HTMLDivElement>(null);
+  const grainRef        = useRef<HTMLDivElement>(null);
+  const amalRef         = useRef<HTMLHeadingElement>(null);
+  const newyorkRef      = useRef<HTMLParagraphElement>(null);
+  const datelineRef     = useRef<HTMLParagraphElement>(null);
+  const bottomRef       = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const tl = gsap.timeline({ delay: 0.1 });
-
-      // Set initial states — prevents flash before animation
+      // Freeze everything before timeline fires
       gsap.set(
-        [
-          datelineRef.current,
-          lineTopRef.current,
-          headlineRef.current,
-          subtitleRef.current,
-          taglineRef.current,
-          lineBottomRef.current,
-          scrollIndicatorRef.current,
-        ],
+        [bgLayerRef.current, amalRef.current, newyorkRef.current,
+         datelineRef.current, bottomRef.current, grainRef.current],
         { opacity: 0 }
       );
+      gsap.set(amalRef.current, { scale: 0.95 });
 
-      // 1. Dateline
-      tl.to(datelineRef.current, {
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-      }, 0.3);
+      const tl = gsap.timeline({ delay: 0.05 });
 
-      // 2. Top decorative line
-      gsap.set(lineTopRef.current, { scaleX: 0, transformOrigin: "center" });
-      tl.to(lineTopRef.current, {
-        scaleX: 1,
+      // 1. Background image fades in
+      tl.to(bgLayerRef.current, {
         opacity: 1,
-        duration: 0.8,
+        duration: 1.5,
         ease: "power2.inOut",
-      }, 0.4);
+      }, 0);
 
-      // 3. Headline — the hero moment, longest smoothest animation
-      gsap.set(headlineRef.current, { y: 25 });
-      tl.to(headlineRef.current, {
+      // 2. "Amal" — THE moment. Scale + fade, slow and weighty
+      tl.to(amalRef.current, {
         opacity: 1,
-        y: 0,
-        duration: 1.4,
+        scale: 1,
+        duration: 1.8,
         ease: "power3.out",
-      }, 0.6);
+      }, 0.8);
 
-      // 4. Subtitle
-      gsap.set(subtitleRef.current, { y: 15 });
-      tl.to(subtitleRef.current, {
-        opacity: 1,
-        y: 0,
+      // 3. "NEW YORK" — stays muted, fades to 0.4
+      tl.to(newyorkRef.current, {
+        opacity: 0.4,
         duration: 1.0,
-        ease: "power3.out",
-      }, 0.9);
+        ease: "power2.out",
+      }, 1.2);
 
-      // 5. Editorial tagline — pure fade, no y movement
-      tl.to(taglineRef.current, {
-        opacity: 1,
+      // 4. Dateline — fades to 0.5
+      tl.to(datelineRef.current, {
+        opacity: 0.5,
         duration: 0.8,
         ease: "power2.out",
-      }, 1.3);
-
-      // 6. Bottom decorative line
-      gsap.set(lineBottomRef.current, { scaleX: 0, transformOrigin: "center" });
-      tl.to(lineBottomRef.current, {
-        scaleX: 1,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.inOut",
       }, 1.5);
 
-      // 7. Scroll indicator — never reaches full opacity
-      tl.to(scrollIndicatorRef.current, {
-        opacity: 0.5,
+      // 5. Bottom elements — journal link + scroll indicator
+      tl.to(bottomRef.current, {
+        opacity: 1,
         duration: 0.6,
         ease: "power2.out",
-      }, 2.1);
+      }, 1.9);
+
+      // 6. Grain overlay — last, barely visible
+      tl.to(grainRef.current, {
+        opacity: 0.035,
+        duration: 1.0,
+        ease: "power2.out",
+      }, 2.0);
     },
     { scope: containerRef }
   );
@@ -103,109 +82,122 @@ export default function Hero() {
       ref={containerRef}
       className="relative w-full h-screen overflow-hidden bg-amal-black"
     >
-      {/* ── BACKGROUND LAYER ─────────────────────────────────────── */}
-      {/* REPLACE: swap this div for hero video/image */}
-      <div
-        className="absolute inset-0 animate-ken-burns"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, #1A1A1A 0%, #0A0A0A 70%)",
-        }}
-      >
-        {/* Film grain overlay */}
+      {/* ── LAYER 1: BACKGROUND ──────────────────────────────────── */}
+      <div ref={bgLayerRef} className="absolute inset-0">
+
+        {/* Fallback gradient — shows through if image fails to load */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse at center, #1A1A1A 0%, #0A0A0A 75%)",
+          }}
+        />
+
+        {/* REPLACE: swap next/image src with final product shot */}
+        <div className="absolute inset-0 animate-ken-burns">
+          <Image
+            src="/images/hero-belt.jpg"
+            alt="Amal New York — hero"
+            fill
+            priority
+            quality={90}
+            className="object-cover object-center"
+          />
+        </div>
+
+        {/* Gradient overlay — keeps top/bottom legible, lets middle breathe */}
+        <div
+          className="absolute inset-0 z-[1]"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.1) 40%, rgba(10,10,10,0.5) 100%)",
+          }}
+        />
+
+        {/* Film grain — fades in last via GSAP */}
+        <div
+          ref={grainRef}
+          className="absolute inset-0 pointer-events-none z-[2]"
           style={{
             backgroundImage: NOISE_SVG,
             backgroundRepeat: "repeat",
-            opacity: 0.04,
             mixBlendMode: "overlay",
           }}
         />
       </div>
 
-      {/* Vignette — darkens edges for depth */}
-      <div
-        className="absolute inset-0 pointer-events-none z-[1]"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(10,10,10,0.65) 100%)",
-        }}
-      />
+      {/* ── LAYER 2: CONTENT ─────────────────────────────────────── */}
+      <div className="absolute inset-0 z-[3] flex flex-col justify-between">
 
-      {/* ── CONTENT LAYER ────────────────────────────────────────── */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-12 text-center">
-
-        {/* 1. Dateline */}
-        <p
-          ref={datelineRef}
-          className="font-body text-[10px] uppercase tracking-[0.35em] text-amal-ash/60 font-light mb-12"
-        >
-          Issue No. 01 — Spring/Summer 2026
-        </p>
-
-        {/* 2. Decorative line — top */}
-        <div
-          ref={lineTopRef}
-          className="w-10 h-px bg-amal-gold/50 mb-8"
-        />
-
-        {/* 3. Main headline */}
-        <h1
-          ref={headlineRef}
-          className="font-display font-light tracking-[0.06em] text-amal-cream
-            text-[2.5rem] leading-[1.1]
-            md:text-[4rem]
-            lg:text-[5.5rem]
-            xl:text-[6.5rem]"
-        >
-          The Art of Restraint
-        </h1>
-
-        {/* 4. Subtitle */}
-        <p
-          ref={subtitleRef}
-          className="font-body font-light text-[11px] uppercase tracking-[0.25em] text-amal-warm/80 mt-6"
-        >
-          Luxury Leather Goods — Handcrafted in New York
-        </p>
-
-        {/* 5. Editorial tagline */}
-        <Link
-          ref={taglineRef}
-          href="/journal"
-          className="group inline-flex items-center gap-2 mt-12 font-editorial italic text-base md:text-lg font-light text-amal-cream/50 hover:text-amal-cream transition-colors duration-500"
-        >
-          Explore the Journal
-          <span className="inline-block not-italic transition-transform duration-500 group-hover:translate-x-1">
-            →
-          </span>
-        </Link>
-
-        {/* 6. Decorative line — bottom */}
-        <div
-          ref={lineBottomRef}
-          className="w-10 h-px bg-amal-gold/50 mt-12"
-        />
-      </div>
-
-      {/* ── SCROLL INDICATOR ─────────────────────────────────────── */}
-      <div
-        ref={scrollIndicatorRef}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-      >
-        <div className="relative w-px h-[30px] overflow-hidden">
-          <div className="absolute inset-0 bg-amal-ash/30" />
-          <div
-            className="absolute left-0 right-0 h-1/2 bg-amal-warm/60"
-            style={{ animation: "scroll-travel 2s ease-in-out infinite" }}
-          />
+        {/* TOP ZONE — dateline */}
+        <div className="pt-28 px-6 md:px-12 flex justify-center md:justify-start">
+          <p
+            ref={datelineRef}
+            className="font-body text-[10px] uppercase tracking-[0.35em] text-amal-cream font-light"
+          >
+            Issue No. 01 — Spring/Summer 2026
+          </p>
         </div>
-        <span className="font-body text-[9px] uppercase tracking-[0.3em] text-amal-ash/30">
-          Scroll
-        </span>
-      </div>
 
+        {/* MIDDLE ZONE — gold "Amal" logotype */}
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <h1
+            ref={amalRef}
+            className="font-script font-normal leading-none tracking-[0.02em]
+              text-[5rem]
+              md:text-[8rem]
+              lg:text-[10rem]
+              xl:text-[12rem]"
+            style={{
+              background:
+                "linear-gradient(135deg, #C4A265 0%, #D4B87A 25%, #E8D5A3 50%, #C4A265 75%, #A8894F 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              textShadow: "0 2px 30px rgba(196,162,101,0.15)",
+            }}
+          >
+            Amal
+          </h1>
+
+          <p
+            ref={newyorkRef}
+            className="font-body font-light uppercase tracking-[0.5em] text-amal-cream
+              text-[10px] md:text-[12px]
+              mt-2"
+          >
+            New York
+          </p>
+        </div>
+
+        {/* BOTTOM ZONE — journal link + scroll indicator */}
+        <div
+          ref={bottomRef}
+          className="pb-12 px-6 md:px-12 flex flex-col items-center gap-6 md:flex-row md:justify-between md:items-end"
+        >
+          {/* Journal link */}
+          <Link
+            href="/journal"
+            className="group inline-flex items-center gap-2 font-editorial italic text-sm font-light text-amal-cream/40 hover:text-amal-cream/70 transition-colors duration-500"
+          >
+            Explore the Journal
+            <span className="inline-block not-italic transition-transform duration-500 group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+
+          {/* Scroll indicator */}
+          <div className="flex flex-col items-center gap-2">
+            <div
+              className="w-px h-[25px] bg-amal-cream/20"
+              style={{ animation: "scroll-pulse 2.5s ease-in-out infinite" }}
+            />
+            <span className="font-body text-[9px] uppercase tracking-[0.3em] text-amal-cream/20">
+              Scroll
+            </span>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

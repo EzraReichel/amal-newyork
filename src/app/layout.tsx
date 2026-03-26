@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Cormorant, Inter } from "next/font/google";
+import { Cormorant_Garamond, Cormorant, Inter, Great_Vibes } from "next/font/google";
 import "../styles/globals.css";
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -22,6 +22,12 @@ const inter = Inter({
   weight: ["300", "400", "500"],
 });
 
+const greatVibes = Great_Vibes({
+  subsets: ["latin"],
+  variable: "--font-script",
+  weight: ["400"],
+});
+
 export const metadata: Metadata = {
   title: "AMAL — New York",
   description: "Luxury leather goods. Crafted in New York.",
@@ -35,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorantGaramond.variable} ${cormorant.variable} ${inter.variable}`}
+      className={`${cormorantGaramond.variable} ${cormorant.variable} ${inter.variable} ${greatVibes.variable}`}
     >
       <body>{children}</body>
     </html>
