@@ -62,19 +62,15 @@ export default function Hero() {
 
         <h1
           style={{
-            fontFamily: "var(--font-script), cursive",
-            fontSize: "clamp(4rem, 12vw, 12rem)",
-            fontWeight: 400,
-            lineHeight: 1,
-            letterSpacing: "0.02em",
-            background:
-              "linear-gradient(135deg, #C4A265 0%, #D4B87A 25%, #E8D5A3 50%, #C4A265 75%, #A8894F 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            fontFamily: "var(--font-display), Georgia, serif",
+            fontSize: "clamp(2.5rem, 10vw, 6.5rem)",
+            fontWeight: 300,
+            lineHeight: 1.1,
+            letterSpacing: "0.06em",
+            color: "#F5F0EB",
           }}
         >
-          Amal
+          New Collection Spring 26
         </h1>
 
         <p
@@ -82,12 +78,12 @@ export default function Hero() {
             fontSize: "10px",
             textTransform: "uppercase",
             letterSpacing: "0.5em",
-            color: "rgba(255,255,255,0.4)",
-            marginTop: "0.5rem",
+            color: "rgba(184,160,128,0.8)",
+            marginTop: "1.5rem",
             fontWeight: 300,
           }}
         >
-          NEW YORK
+          Luxury Leather Goods — Handcrafted in New York
         </p>
       </div>
     </section>
