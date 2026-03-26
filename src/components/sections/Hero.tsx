@@ -70,7 +70,7 @@ export default function Hero() {
             color: "#F5F0EB",
           }}
         >
-          New Collection Spring 26
+          Amal
         </h1>
 
         <p
@@ -83,7 +83,7 @@ export default function Hero() {
             fontWeight: 300,
           }}
         >
-          Luxury Leather Goods — Handcrafted in New York
+          New Collection
         </p>
       </div>
     </section>
