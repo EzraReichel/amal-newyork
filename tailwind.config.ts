@@ -23,9 +23,9 @@ const config: Config = {
         }
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        body: ['"Inter"', 'system-ui', 'sans-serif'],
-        editorial: ['"Cormorant"', 'Georgia', 'serif'],
+        display: ['var(--font-display)', '"Cormorant Garamond"', 'Georgia', 'serif'],
+        body: ['var(--font-body)', '"Inter"', 'system-ui', 'sans-serif'],
+        editorial: ['var(--font-editorial)', '"Cormorant"', 'Georgia', 'serif'],
       },
       letterSpacing: {
         luxury: '0.2em',
