@@ -9,38 +9,26 @@ import { leathers, Leather } from "@/lib/leathers";
 
 gsap.registerPlugin(useGSAP);
 
-const NOISE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")`;
-
-// Simple luminance check — no external utility needed here
-function isLight(hex: string): boolean {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return 0.299 * r + 0.587 * g + 0.114 * b > 150;
-}
-
-// ── Single swatch — outer div is the GSAP target, inner card flips ──
+// ── Single swatch ────────────────────────────────────────────────
 function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) {
   const [hovered, setHovered] = useState(false);
   const [touched, setTouched] = useState(false);
   const router = useRouter();
-  const numColor = isLight(leather.color) ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.2)";
 
   const handleTap = () => {
     if (!touched) {
-      setTouched(true);   // first tap: flip
+      setTouched(true);
     } else {
-      router.push(`/leathers/${leather.id}`); // second tap: navigate
+      router.push(`/leathers/${leather.id}`);
     }
   };
 
+  const flipped = hovered || touched;
+
   return (
-    // Outer wrapper — GSAP animates opacity + scale on this element
-    <div
-      className="leather-swatch"
-      style={{ width: "100%", height: "100%" }}
-    >
-      {/* Perspective container */}
+    // Outer div — GSAP targets this for the entrance animation
+    <div className="leather-swatch" style={{ width: "100%", height: "100%" }}>
+      {/* Perspective shell */}
       <div
         style={{
           width: "100%",
@@ -52,45 +40,38 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
         onMouseLeave={() => setHovered(false)}
         onTouchStart={handleTap}
       >
-        {/* The card — rotates on hover/touch */}
+        {/* Flip card */}
         <div
           style={{
             position: "relative",
             width: "100%",
             height: "100%",
             transformStyle: "preserve-3d",
-            transform: hovered || touched ? "rotateY(180deg)" : "rotateY(0deg)",
+            transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
             transition: "transform 600ms cubic-bezier(0.16, 1, 0.3, 1)",
           }}
         >
-          {/* ── FRONT FACE: solid color ── */}
+
+          {/* ── FRONT: leather photo ── */}
           <div
             style={{
               position: "absolute",
               inset: 0,
+              // Photo as background, hex color as fallback
               backgroundColor: leather.color,
+              backgroundImage: `url('${leather.image}')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
             }}
           >
-            {/* Grain texture */}
+            {/* Thin definition border between patches */}
             <div
               style={{
                 position: "absolute",
                 inset: 0,
-                backgroundImage: NOISE,
-                backgroundRepeat: "repeat",
-                opacity: 0.06,
-                mixBlendMode: "overlay",
-                pointerEvents: "none",
-              }}
-            />
-            {/* Definition border */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                border: "1px solid rgba(0,0,0,0.15)",
+                border: "1px solid rgba(0,0,0,0.18)",
                 pointerEvents: "none",
               }}
             />
@@ -102,18 +83,20 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
                 left: 6,
                 fontSize: 8,
                 fontFamily: "var(--font-body)",
-                color: numColor,
+                color: "rgba(255,255,255,0.3)",
                 lineHeight: 1,
                 userSelect: "none",
                 pointerEvents: "none",
+                mixBlendMode: "overlay",
               }}
             >
               {String(index + 1).padStart(2, "0")}
             </span>
           </div>
 
-          {/* ── BACK FACE: leather info ── */}
+          {/* ── BACK: leather info ── */}
           <div
+            onClick={() => router.push(`/leathers/${leather.id}`)}
             style={{
               position: "absolute",
               inset: 0,
@@ -126,11 +109,12 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              padding: "8px",
+              padding: "10px 8px",
               textAlign: "center",
+              gap: 0,
             }}
-            onClick={() => router.push(`/leathers/${leather.id}`)}
           >
+            {/* Italian name */}
             <span
               style={{
                 fontFamily: "var(--font-display)",
@@ -143,48 +127,63 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
             >
               {leather.name}
             </span>
+            {/* English translation */}
+            <span
+              style={{
+                fontFamily: "var(--font-editorial)",
+                fontStyle: "italic",
+                fontSize: "clamp(7px, 0.6vw, 10px)",
+                color: "rgba(245,240,235,0.4)",
+                marginTop: 3,
+                lineHeight: 1.2,
+              }}
+            >
+              {leather.nameEn}
+            </span>
+            {/* Collection */}
             <span
               style={{
                 fontFamily: "var(--font-body)",
-                fontSize: "clamp(7px, 0.6vw, 9px)",
+                fontSize: "clamp(6px, 0.55vw, 9px)",
                 textTransform: "uppercase",
                 letterSpacing: "0.18em",
                 color: "rgba(184,160,128,0.7)",
-                marginTop: 5,
+                marginTop: 7,
                 lineHeight: 1.3,
+              }}
+            >
+              {leather.collection}
+            </span>
+            {/* Origin */}
+            <span
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "clamp(5px, 0.5vw, 8px)",
+                textTransform: "uppercase",
+                letterSpacing: "0.14em",
+                color: "rgba(61,61,61,0.9)",
+                marginTop: 4,
               }}
             >
               {leather.origin}
             </span>
-            <span
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "clamp(6px, 0.55vw, 8px)",
-                textTransform: "uppercase",
-                letterSpacing: "0.14em",
-                color: "rgba(61,61,61,0.9)",
-                marginTop: 5,
-              }}
-            >
-              {leather.category}
-            </span>
           </div>
+
         </div>
       </div>
     </div>
   );
 }
 
-// ── Page ────────────────────────────────────────────────────────────
+// ── Page ─────────────────────────────────────────────────────────
 export default function LeathersPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [grid, setGrid] = useState({ cols: 8, rows: 5 });
 
-  // Responsive grid columns — JS-driven so inline styles can respond
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
-      if (w < 768) setGrid({ cols: 4, rows: 10 });
+      if (w < 768)  setGrid({ cols: 4, rows: 10 });
       else if (w < 1024) setGrid({ cols: 5, rows: 8 });
       else setGrid({ cols: 8, rows: 5 });
     };
@@ -193,8 +192,6 @@ export default function LeathersPage() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // GSAP entrance — targets outer .leather-swatch wrappers only,
-  // never touches the flip card transform
   useGSAP(
     () => {
       const items = gsap.utils.toArray<HTMLElement>(".leather-swatch");
@@ -206,7 +203,7 @@ export default function LeathersPage() {
         duration: 0.35,
         stagger: 0.025,
         ease: "power2.out",
-        clearProps: "transform", // clear so hover state controls inner card freely
+        clearProps: "transform",
       });
     },
     { scope: containerRef }
@@ -225,13 +222,12 @@ export default function LeathersPage() {
         overflowY: isMobile ? "auto" : "hidden",
       }}
     >
-      {/* Brand label — top left */}
+      {/* Brand label */}
       <Link
         href="/"
         style={{
           position: "fixed",
-          top: 24,
-          left: 24,
+          top: 24, left: 24,
           zIndex: 50,
           fontFamily: "var(--font-display)",
           fontSize: "0.875rem",
@@ -243,12 +239,11 @@ export default function LeathersPage() {
         AMAL
       </Link>
 
-      {/* Archive label — top right */}
+      {/* Archive label */}
       <span
         style={{
           position: "fixed",
-          top: 28,
-          right: 24,
+          top: 28, right: 24,
           zIndex: 50,
           fontFamily: "var(--font-body)",
           fontSize: 10,
@@ -260,7 +255,7 @@ export default function LeathersPage() {
         Leather Archive
       </span>
 
-      {/* The quilt — fully inline grid, no CSS class dependency */}
+      {/* Quilt grid */}
       <div
         style={{
           display: "grid",

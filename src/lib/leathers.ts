@@ -1,63 +1,226 @@
 export interface Leather {
   id: string;
-  name: string;
+  name: string;       // Italian
+  nameEn: string;     // English translation
+  collection: string;
   origin: string;
-  color: string;
-  category: string;
+  color: string;      // hex fallback
+  image: string;      // path to cropped swatch
 }
 
-// Arranged in row-major order for an 8×5 grid.
-// Each column is a coherent color story, reading light→dark top→bottom:
-//   Col 1: Lights/bone   Col 2: Yellow-tans   Col 3: Caramels     Col 4: Warm browns
-//   Col 5: Dark browns   Col 6: Reds/burgundy  Col 7: Jewel tones  Col 8: Cool darks
+// 40 entries arranged in row-major order for an 8×5 grid.
+// Layout logic:
+//   Cols 1–4: Alligatore Lucido  (glossy croc, left half)
+//   Cols 5–8: Alligatore Opaco   (matte croc, right half)
+//   Rows read dark → light / warm → cool top-to-bottom within each zone
 export const leathers: Leather[] = [
-  // ── Row 1 (lightest of each column) ────────────────────────────
-  { id: "bone-vachetta",     name: "Bone Vachetta",     origin: "Florence, Italy",         color: "#E8DBC8", category: "Full Grain" },
-  { id: "linen-nubuck",      name: "Linen Nubuck",      origin: "Bavaria, Germany",        color: "#C8B47C", category: "Nubuck"     },
-  { id: "butterscotch-calf", name: "Butterscotch Calf", origin: "Buenos Aires, Argentina", color: "#C49858", category: "Full Grain" },
-  { id: "whiskey-bridle",    name: "Whiskey Bridle",    origin: "Dublin, Ireland",         color: "#9C6030", category: "Full Grain" },
-  { id: "mocha-bridle",      name: "Mocha Bridle",      origin: "Provence, France",        color: "#6A3C1C", category: "Full Grain" },
-  { id: "terracotta-suede",  name: "Terracotta Suede",  origin: "Rajasthan, India",        color: "#904030", category: "Suede"      },
-  { id: "plum-patent",       name: "Plum Patent",       origin: "Milan, Italy",            color: "#4A2048", category: "Patent"     },
-  { id: "slate-bridle",      name: "Slate Bridle",      origin: "Buenos Aires, Argentina", color: "#38404C", category: "Full Grain" },
+  // ── Row 1: deep darks ─────────────────────────────────────────
+  {
+    id: "lucido-nero",    name: "Nero",    nameEn: "Black",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#1A1A1A", image: "/images/leathers/lucido-nero.jpg",
+  },
+  {
+    id: "lucido-antra",   name: "Antra",   nameEn: "Anthracite",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#2D2D2D", image: "/images/leathers/lucido-antra.jpg",
+  },
+  {
+    id: "lucido-moro",    name: "Moro",    nameEn: "Dark Brown",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#2A1A0E", image: "/images/leathers/lucido-moro.jpg",
+  },
+  {
+    id: "lucido-notte",   name: "Notte",   nameEn: "Night",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#1A1F2E", image: "/images/leathers/lucido-notte.jpg",
+  },
+  {
+    id: "opaco-nero",     name: "Nero",    nameEn: "Black",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#1C1C1C", image: "/images/leathers/opaco-nero.jpg",
+  },
+  {
+    id: "opaco-antra",    name: "Antra",   nameEn: "Anthracite",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#303030", image: "/images/leathers/opaco-antra.jpg",
+  },
+  {
+    id: "opaco-moro",     name: "Moro",    nameEn: "Dark Brown",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#2A1A0A", image: "/images/leathers/opaco-moro.jpg",
+  },
+  {
+    id: "opaco-notte",    name: "Notte",   nameEn: "Night",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#1A1A30", image: "/images/leathers/opaco-notte.jpg",
+  },
 
-  // ── Row 2 ────────────────────────────────────────────────────────
-  { id: "parchment-calf",    name: "Parchment Calf",    origin: "Lyon, France",            color: "#DDD0B0", category: "Full Grain" },
-  { id: "wheat-calf",        name: "Wheat Calf",        origin: "Tuscany, Italy",          color: "#C0A870", category: "Full Grain" },
-  { id: "cognac-sella",      name: "Cognac Sella",      origin: "Córdoba, Spain",          color: "#B07838", category: "Full Grain" },
-  { id: "hazelnut-calf",     name: "Hazelnut Calf",     origin: "Tuscany, Italy",          color: "#8C5830", category: "Full Grain" },
-  { id: "mahogany-calf",     name: "Mahogany Calf",     origin: "Lagos, Nigeria",          color: "#60301A", category: "Full Grain" },
-  { id: "brick-calf",        name: "Brick Calf",        origin: "Córdoba, Spain",          color: "#7C3028", category: "Full Grain" },
-  { id: "midnight-navy",     name: "Midnight Navy",     origin: "Kyoto, Japan",            color: "#1A2848", category: "Full Grain" },
-  { id: "storm-calf",        name: "Storm Calf",        origin: "Reykjavik, Iceland",      color: "#303848", category: "Full Grain" },
+  // ── Row 2: deep jewel tones ───────────────────────────────────
+  {
+    id: "lucido-blu",     name: "Blu",     nameEn: "Blue",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#1A3A6E", image: "/images/leathers/lucido-blu.jpg",
+  },
+  {
+    id: "lucido-lavanda", name: "Lavanda", nameEn: "Lavender",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#6A5A8A", image: "/images/leathers/lucido-lavanda.jpg",
+  },
+  {
+    id: "lucido-viola",   name: "Viola",   nameEn: "Violet",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#4A2060", image: "/images/leathers/lucido-viola.jpg",
+  },
+  {
+    id: "lucido-prugna",  name: "Prugna",  nameEn: "Plum",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#3A1840", image: "/images/leathers/lucido-prugna.jpg",
+  },
+  {
+    id: "opaco-prugna",   name: "Prugna",  nameEn: "Plum",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#2A1040", image: "/images/leathers/opaco-prugna.jpg",
+  },
+  {
+    id: "opaco-viola",    name: "Viola",   nameEn: "Violet",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#3A1850", image: "/images/leathers/opaco-viola.jpg",
+  },
+  {
+    id: "opaco-cielo",    name: "Cielo",   nameEn: "Sky Blue",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#2060C0", image: "/images/leathers/opaco-cielo.jpg",
+  },
+  {
+    id: "opaco-acqua",    name: "Acqua",   nameEn: "Aqua",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#208080", image: "/images/leathers/opaco-acqua.jpg",
+  },
 
-  // ── Row 3 ────────────────────────────────────────────────────────
-  { id: "ivory-nappa",       name: "Ivory Nappa",       origin: "Milan, Italy",            color: "#D8C8A4", category: "Full Grain" },
-  { id: "sahara-vachetta",   name: "Sahara Vachetta",   origin: "Rajasthan, India",        color: "#B89E64", category: "Full Grain" },
-  { id: "amber-bridle",      name: "Amber Bridle",      origin: "Lancashire, England",     color: "#A07030", category: "Full Grain" },
-  { id: "chestnut-bridle",   name: "Chestnut Bridle",   origin: "Lancashire, England",     color: "#7E4828", category: "Full Grain" },
-  { id: "chocolate-nappa",   name: "Chocolate Nappa",   origin: "Milan, Italy",            color: "#542818", category: "Full Grain" },
-  { id: "burgundy-nappa",    name: "Burgundy Nappa",    origin: "Lyon, France",            color: "#6C2030", category: "Full Grain" },
-  { id: "forest-bridle",     name: "Forest Bridle",     origin: "Bavaria, Germany",        color: "#1E3828", category: "Full Grain" },
-  { id: "graphite-nappa",    name: "Graphite Nappa",    origin: "Milan, Italy",            color: "#2C3038", category: "Full Grain" },
+  // ── Row 3: mid reds / wines / greens ─────────────────────────
+  {
+    id: "lucido-wine",    name: "Wine",    nameEn: "Wine",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#3A1A28", image: "/images/leathers/lucido-wine.jpg",
+  },
+  {
+    id: "lucido-ciclamino", name: "Ciclamino", nameEn: "Cyclamen",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#CC2060", image: "/images/leathers/lucido-ciclamino.jpg",
+  },
+  {
+    id: "lucido-fucsia",  name: "Fucsia",  nameEn: "Fuchsia",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#C01870", image: "/images/leathers/lucido-fucsia.jpg",
+  },
+  {
+    id: "lucido-baby",    name: "Baby",    nameEn: "Baby Pink",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#CC3050", image: "/images/leathers/lucido-baby.jpg",
+  },
+  {
+    id: "opaco-cremisi",  name: "Cremisi", nameEn: "Crimson",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#780820", image: "/images/leathers/opaco-cremisi.jpg",
+  },
+  {
+    id: "opaco-wine",     name: "Wine",    nameEn: "Wine",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#4A1820", image: "/images/leathers/opaco-wine.jpg",
+  },
+  {
+    id: "opaco-smeraldo", name: "Smeraldo", nameEn: "Emerald",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#088050", image: "/images/leathers/opaco-smeraldo.jpg",
+  },
+  {
+    id: "opaco-verde",    name: "Verde",   nameEn: "Green",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#206020", image: "/images/leathers/opaco-verde.jpg",
+  },
 
-  // ── Row 4 ────────────────────────────────────────────────────────
-  { id: "natural-bridle",    name: "Natural Bridle",    origin: "Lancashire, England",     color: "#D0BC94", category: "Full Grain" },
-  { id: "honey-bridle",      name: "Honey Bridle",      origin: "Provence, France",        color: "#C49050", category: "Full Grain" },
-  { id: "caramel-nappa",     name: "Caramel Nappa",     origin: "Bavaria, Germany",        color: "#985E20", category: "Full Grain" },
-  { id: "walnut-vachetta",   name: "Walnut Vachetta",   origin: "Florence, Italy",         color: "#7E4828", category: "Full Grain" },
-  { id: "espresso-calf",     name: "Espresso Calf",     origin: "Tuscany, Italy",          color: "#482014", category: "Full Grain" },
-  { id: "oxblood-bridle",    name: "Oxblood Bridle",    origin: "Lancashire, England",     color: "#601828", category: "Full Grain" },
-  { id: "olive-nubuck",      name: "Olive Nubuck",      origin: "Tuscany, Italy",          color: "#484830", category: "Nubuck"     },
-  { id: "charcoal-nubuck",   name: "Charcoal Nubuck",   origin: "Lancashire, England",     color: "#242830", category: "Nubuck"     },
+  // ── Row 4: warm reds / corals / earth tones ───────────────────
+  {
+    id: "lucido-rosso",   name: "Rosso",   nameEn: "Red",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#C02020", image: "/images/leathers/lucido-rosso.jpg",
+  },
+  {
+    id: "lucido-anguria", name: "Anguria", nameEn: "Watermelon",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#C43030", image: "/images/leathers/lucido-anguria.jpg",
+  },
+  {
+    id: "lucido-fragola", name: "Fragola", nameEn: "Strawberry",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#CC2040", image: "/images/leathers/lucido-fragola.jpg",
+  },
+  {
+    id: "lucido-corallo", name: "Corallo", nameEn: "Coral",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#D04020", image: "/images/leathers/lucido-corallo.jpg",
+  },
+  {
+    id: "opaco-fango",    name: "Fango",   nameEn: "Clay",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#806040", image: "/images/leathers/opaco-fango.jpg",
+  },
+  {
+    id: "opaco-cuoio",    name: "Cuoio",   nameEn: "Leather Brown",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#8C5A20", image: "/images/leathers/opaco-cuoio.jpg",
+  },
+  {
+    id: "opaco-corallo",  name: "Corallo", nameEn: "Coral",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#CC4020", image: "/images/leathers/opaco-corallo.jpg",
+  },
+  {
+    id: "opaco-mela",     name: "Mela",    nameEn: "Apple Green",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#60A020", image: "/images/leathers/opaco-mela.jpg",
+  },
 
-  // ── Row 5 (darkest of each column) ─────────────────────────────
-  { id: "champagne-suede",   name: "Champagne Suede",   origin: "Córdoba, Spain",          color: "#CCBB88", category: "Suede"      },
-  { id: "tuscan-caramel",    name: "Tuscan Caramel",    origin: "Florence, Italy",         color: "#BC8640", category: "Full Grain" },
-  { id: "saddle-vachetta",   name: "Saddle Vachetta",   origin: "Córdoba, Spain",          color: "#8C5418", category: "Full Grain" },
-  { id: "tobacco-calf",      name: "Tobacco Calf",      origin: "Buenos Aires, Argentina", color: "#744020", category: "Full Grain" },
-  { id: "espresso-black",    name: "Espresso Black",    origin: "Florence, Italy",         color: "#1C1818", category: "Full Grain" },
-  { id: "bordeaux-suede",    name: "Bordeaux Suede",    origin: "Provence, France",        color: "#501428", category: "Suede"      },
-  { id: "hunter-calf",       name: "Hunter Calf",       origin: "Lancashire, England",     color: "#2A3C28", category: "Full Grain" },
-  { id: "jet-patent",        name: "Jet Patent",        origin: "Kyoto, Japan",            color: "#100C0C", category: "Patent"     },
+  // ── Row 5: lights / sands / brights ──────────────────────────
+  {
+    id: "lucido-sabbia",  name: "Sabbia",  nameEn: "Sand",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#A08040", image: "/images/leathers/lucido-sabbia.jpg",
+  },
+  {
+    id: "lucido-acqua",   name: "Acqua",   nameEn: "Aqua",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#208060", image: "/images/leathers/lucido-acqua.jpg",
+  },
+  {
+    id: "lucido-smeraldo", name: "Smeraldo", nameEn: "Emerald",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#1A6040", image: "/images/leathers/lucido-smeraldo.jpg",
+  },
+  {
+    id: "lucido-verdone", name: "Verdone", nameEn: "Dark Green",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#1A4020", image: "/images/leathers/lucido-verdone.jpg",
+  },
+  {
+    id: "lucido-petrolio", name: "Petrolio", nameEn: "Petrol",
+    collection: "Alligatore Lucido", origin: "Italy",
+    color: "#0A2A30", image: "/images/leathers/lucido-petrolio.jpg",
+  },
+  {
+    id: "opaco-grigio",   name: "Grigio",  nameEn: "Grey",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#808080", image: "/images/leathers/opaco-grigio.jpg",
+  },
+  {
+    id: "opaco-panna",    name: "Panna",   nameEn: "Cream",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#E8E0D0", image: "/images/leathers/opaco-panna.jpg",
+  },
+  {
+    id: "opaco-giallo",   name: "Giallo",  nameEn: "Yellow",
+    collection: "Alligatore Opaco",  origin: "Italy",
+    color: "#C0C000", image: "/images/leathers/opaco-giallo.jpg",
+  },
 ];
