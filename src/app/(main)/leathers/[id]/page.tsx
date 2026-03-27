@@ -690,20 +690,42 @@ export default function LeatherDetailPage() {
   const [activePanel, setActivePanel] = useState(0);
   const PANEL_COUNT = 4;
 
-  // ── Wheel → horizontal scroll ─────────────────────────────────────────────
-  const onWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
-    e.preventDefault();
+  // ── Wheel → snap to next/prev panel (one panel per gesture) ─────────────
+  const wheelLocked = useRef(false);
+  const activePanelRef = useRef(0);
+
+  const snapToPanel = useCallback((index: number) => {
     const el = storyRef.current;
     if (!el) return;
-    el.scrollLeft += e.deltaY + e.deltaX;
+    const clamped = Math.min(Math.max(index, 0), PANEL_COUNT - 1);
+    el.scrollTo({ left: clamped * el.clientWidth, behavior: "smooth" });
+    activePanelRef.current = clamped;
+    setActivePanel(clamped);
   }, []);
 
-  // ── Track active panel ────────────────────────────────────────────────────
+  const onWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (wheelLocked.current) return;
+    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if (Math.abs(delta) < 5) return; // ignore tiny jitter
+    wheelLocked.current = true;
+    snapToPanel(activePanelRef.current + (delta > 0 ? 1 : -1));
+    // unlock after the smooth scroll has time to settle (~600ms)
+    setTimeout(() => { wheelLocked.current = false; }, 600);
+  }, [snapToPanel]);
+
+  // ── Track active panel via scroll position ────────────────────────────────
   const handleStoryScroll = useCallback(() => {
     const el = storyRef.current;
     if (!el) return;
+    // Only update from scroll events when NOT driven by snapToPanel
+    // (snapToPanel already sets state; this catches touch/trackpad momentum)
     const panel = Math.round(el.scrollLeft / el.clientWidth);
-    setActivePanel(Math.min(Math.max(panel, 0), PANEL_COUNT - 1));
+    const clamped = Math.min(Math.max(panel, 0), PANEL_COUNT - 1);
+    if (clamped !== activePanelRef.current) {
+      activePanelRef.current = clamped;
+      setActivePanel(clamped);
+    }
   }, []);
 
   useEffect(() => {
