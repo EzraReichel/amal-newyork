@@ -11,13 +11,13 @@ gsap.registerPlugin(useGSAP);
 
 // ── Responsive bookmark dimensions ──────────────────────────────────────────
 function useBookmarkSize() {
-  const [size, setSize] = useState({ width: 80, height: "75vh", rotateY: -12 });
+  const [size, setSize] = useState({ width: 80, height: "75vh" });
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
-      if (w < 768)       setSize({ width: 50, height: "60vh", rotateY: -5 });
-      else if (w < 1024) setSize({ width: 60, height: "70vh", rotateY: -8 });
-      else               setSize({ width: 80, height: "75vh", rotateY: -12 });
+      if (w < 768)       setSize({ width: 50, height: "60vh" });
+      else if (w < 1024) setSize({ width: 60, height: "70vh" });
+      else               setSize({ width: 80, height: "75vh" });
     };
     update();
     window.addEventListener("resize", update);
@@ -31,7 +31,6 @@ function LeatherBookmark({
   leather,
   index,
   defaultWidth,
-  defaultRotateY,
   defaultHeight,
   onHover,
   isTouchDevice,
@@ -39,7 +38,6 @@ function LeatherBookmark({
   leather: Leather;
   index: number;
   defaultWidth: number;
-  defaultRotateY: number;
   defaultHeight: string;
   onHover: (leather: Leather | null) => void;
   isTouchDevice: boolean;
@@ -101,9 +99,8 @@ function LeatherBookmark({
         position: "relative",
         transition: "width 500ms cubic-bezier(0.16, 1, 0.3, 1), transform 500ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1)",
         transform: isActive
-          ? `rotateY(0deg) rotateZ(0deg) translateZ(30px) scale(${pressed ? 0.97 : 1.0})`
-          : `rotateY(${defaultRotateY}deg) rotateZ(-2deg) translateZ(-20px) scale(0.95)`,
-        transformStyle: "preserve-3d",
+          ? `scale(${pressed ? 0.97 : 1.02})`
+          : "scale(1)",
         boxShadow: isActive
           ? "0 0 40px rgba(0,0,0,0.5), 0 0 80px rgba(0,0,0,0.3)"
           : "none",
@@ -207,7 +204,7 @@ function LeatherBookmark({
 export default function LeathersV2Page() {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef    = useRef<HTMLDivElement>(null);
-  const { width: bkW, height: bkH, rotateY: bkRY } = useBookmarkSize();
+  const { width: bkW, height: bkH } = useBookmarkSize();
 
   // Hover state — which leather is currently highlighted
   const [hoveredLeather, setHoveredLeather] = useState<Leather | null>(null);
@@ -293,18 +290,17 @@ export default function LeathersV2Page() {
     () => {
       const items = gsap.utils.toArray<HTMLElement>(".leather-bookmark");
       if (!items.length) return;
-      gsap.set(items, { opacity: 0, x: 40, rotateY: -30 });
+      gsap.set(items, { opacity: 0, x: 40 });
       gsap.to(items, {
         opacity: 1,
         x: 0,
-        rotateY: bkRY,
         duration: 0.5,
         stagger: 0.04,
         ease: "power3.out",
-        clearProps: "rotateY,x",
+        clearProps: "x",
       });
     },
-    { scope: containerRef, dependencies: [bkRY] }
+    { scope: containerRef }
   );
 
   // ── Collapse touch-expanded bookmark when clicking outside ────────────────
@@ -467,7 +463,6 @@ export default function LeathersV2Page() {
               index={i}
               defaultWidth={bkW}
               defaultHeight={bkH}
-              defaultRotateY={bkRY}
               onHover={setHoveredLeather}
               isTouchDevice={isTouchDevice}
             />
