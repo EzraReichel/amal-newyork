@@ -118,7 +118,7 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
             <span
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(9px, 1.0vw, 15px)",
+                fontSize: "clamp(13px, 1.6vw, 22px)",
                 fontWeight: 300,
                 color: "#F5F0EB",
                 letterSpacing: "0.05em",
@@ -132,7 +132,7 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
               style={{
                 fontFamily: "var(--font-editorial)",
                 fontStyle: "italic",
-                fontSize: "clamp(7px, 0.6vw, 10px)",
+                fontSize: "clamp(10px, 0.9vw, 14px)",
                 color: "rgba(245,240,235,0.4)",
                 marginTop: 3,
                 lineHeight: 1.2,
@@ -144,7 +144,7 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
             <span
               style={{
                 fontFamily: "var(--font-body)",
-                fontSize: "clamp(6px, 0.55vw, 9px)",
+                fontSize: "clamp(9px, 0.75vw, 12px)",
                 textTransform: "uppercase",
                 letterSpacing: "0.18em",
                 color: "rgba(184,160,128,0.7)",
@@ -158,7 +158,7 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
             <span
               style={{
                 fontFamily: "var(--font-body)",
-                fontSize: "clamp(5px, 0.5vw, 8px)",
+                fontSize: "clamp(9px, 0.7vw, 12px)",
                 textTransform: "uppercase",
                 letterSpacing: "0.14em",
                 color: "rgba(61,61,61,0.9)",
