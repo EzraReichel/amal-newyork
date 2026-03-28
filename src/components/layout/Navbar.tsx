@@ -3,109 +3,171 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <Link href={href} className="relative group inline-block">
-    <span className="font-body uppercase text-[11px] tracking-luxury font-light text-amal-cream/70 hover:text-amal-cream transition-colors duration-[400ms] ease-out">
-      {children}
-    </span>
-    <span className="absolute bottom-0 left-0 w-full h-px bg-amal-warm origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-[400ms] ease-out" />
-  </Link>
-);
+const desktopLeft = [
+  { href: "/collection", label: "Collection" },
+  { href: "/leather-archive", label: "Leather Archive" },
+];
+
+const desktopRight = [
+  { href: "/amal-world", label: "World" },
+  { href: "/journal", label: "Journal" },
+];
+
+const mobileLinks = [
+  { href: "/collection", label: "Collection" },
+  { href: "/leather-archive", label: "Leather Archive" },
+  { href: "/amal-world", label: "World" },
+  { href: "/journal", label: "Journal" },
+  { href: "/contact", label: "Contact" },
+];
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link href={href} className="relative group flex flex-col">
+      <span className="font-body text-[11px] uppercase tracking-[0.2em] font-light text-white/50 group-hover:text-white/90 transition-colors duration-[400ms]">
+        {children}
+      </span>
+      <span className="block h-px bg-white/40 w-full mt-[3px] scale-x-0 group-hover:scale-x-100 transition-transform duration-[400ms] ease-in-out origin-center" />
+    </Link>
+  );
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
+  }, [isOpen]);
+
+  const bgClass = scrolled
+    ? "bg-black/85 backdrop-blur-md"
+    : "bg-transparent";
 
   return (
     <>
+      {/* ── Desktop Navbar (lg+) ─────────────────────────────────── */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12 transition-all duration-[400ms] ease-out ${
-          scrolled ? "bg-amal-black/90 backdrop-blur-md" : "bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 h-[70px] px-10 lg:px-16 hidden lg:flex items-center justify-between transition-all duration-500 ease-in-out ${bgClass}`}
       >
-        {/* Left links */}
-        <div className="hidden md:flex items-center gap-8 flex-1">
-          <NavLink href="/journal">Journal</NavLink>
-          <NavLink href="/world">World</NavLink>
+        <div className="flex items-center gap-10">
+          {desktopLeft.map(({ href, label }) => (
+            <NavLink key={href} href={href}>{label}</NavLink>
+          ))}
         </div>
 
-        {/* Center — Masthead */}
-        <div className="flex-1 md:flex-none flex justify-center md:justify-center">
+        <Link
+          href="/"
+          className="font-display text-xl tracking-[0.35em] font-light text-white/90 hover:text-white transition-colors duration-[400ms]"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          AMAL
+        </Link>
+
+        <div className="flex items-center gap-10">
+          {desktopRight.map(({ href, label }) => (
+            <NavLink key={href} href={href}>{label}</NavLink>
+          ))}
+        </div>
+      </nav>
+
+      {/* ── Mobile Navbar (<lg) ──────────────────────────────────── */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 h-[60px] px-6 flex lg:hidden items-center justify-between transition-all duration-500 ease-in-out ${bgClass}`}
+      >
+        {/* Hamburger */}
+        <button
+          onClick={() => setIsOpen(true)}
+          aria-label="Open menu"
+          className="p-2 flex flex-col gap-[6px]"
+          style={{ background: "none", border: "none", cursor: "pointer" }}
+        >
+          <span className="block w-[22px] h-[1px] bg-white/70 transition-all duration-300" />
+          <span className="block w-[22px] h-[1px] bg-white/70 transition-all duration-300" />
+          <span className="block w-[22px] h-[1px] bg-white/70 transition-all duration-300" />
+        </button>
+
+        <Link
+          href="/"
+          className="font-display text-lg tracking-[0.35em] font-light text-white/90"
+          style={{ textDecoration: "none", color: "inherit", position: "absolute", left: "50%", transform: "translateX(-50%)" }}
+        >
+          AMAL
+        </Link>
+      </nav>
+
+      {/* ── Mobile Menu Overlay ──────────────────────────────────── */}
+      <div
+        className="fixed inset-0 z-[60] flex flex-col backdrop-blur-xl lg:hidden"
+        style={{
+          background: "rgba(0,0,0,0.98)",
+          opacity: isOpen ? 1 : 0,
+          pointerEvents: isOpen ? "auto" : "none",
+          transition: "opacity 400ms ease",
+        }}
+      >
+        {/* Overlay top bar */}
+        <div className="h-[60px] px-6 flex items-center justify-between flex-shrink-0">
           <Link
             href="/"
-            className="font-display text-xl md:text-2xl tracking-[0.35em] font-light text-amal-cream hover:text-amal-cream/80 transition-colors duration-[400ms] ease-out"
+            onClick={() => setIsOpen(false)}
+            className="font-display text-lg tracking-[0.35em] font-light text-white/80"
+            style={{ textDecoration: "none", color: "inherit" }}
           >
             AMAL
           </Link>
+          <button
+            onClick={() => setIsOpen(false)}
+            aria-label="Close menu"
+            className="p-2 relative"
+            style={{ background: "none", border: "none", cursor: "pointer", width: 36, height: 36 }}
+          >
+            <span
+              className="block absolute w-[20px] h-[1px] bg-white/70"
+              style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%) rotate(45deg)" }}
+            />
+            <span
+              className="block absolute w-[20px] h-[1px] bg-white/70"
+              style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%) rotate(-45deg)" }}
+            />
+          </button>
         </div>
 
-        {/* Right links */}
-        <div className="hidden md:flex items-center gap-8 flex-1 justify-end">
-          <NavLink href="/collections">Collections</NavLink>
-          <NavLink href="/contact">Contact</NavLink>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden ml-auto flex flex-col gap-[5px] items-center justify-center w-11 h-11"
-          onClick={() => setMenuOpen(true)}
-          aria-label="Open menu"
-        >
-          <div className="w-5 h-px bg-amal-cream" />
-          <div className="w-5 h-px bg-amal-cream" />
-          <div className="w-5 h-px bg-amal-cream" />
-        </button>
-      </nav>
-
-      {/* Mobile overlay */}
-      <div
-        className={`fixed inset-0 z-50 bg-amal-black flex flex-col items-center justify-center transition-all duration-500 ease-out ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        style={{ transform: menuOpen ? "translateY(0)" : "translateY(-8px)" }}
-      >
-        <button
-          className="absolute top-6 right-6 w-11 h-11 flex items-center justify-center text-amal-cream/70 hover:text-amal-cream transition-colors duration-[400ms]"
-          onClick={() => setMenuOpen(false)}
-          aria-label="Close menu"
-        >
-          <div className="relative w-5 h-5">
-            <div className="absolute top-1/2 left-0 w-full h-px bg-current rotate-45" />
-            <div className="absolute top-1/2 left-0 w-full h-px bg-current -rotate-45" />
-          </div>
-        </button>
-        <nav className="flex flex-col items-center gap-8">
-          {[
-            { href: "/journal", label: "Journal" },
-            { href: "/world", label: "World" },
-            { href: "/collections", label: "Collections" },
-            { href: "/contact", label: "Contact" },
-          ].map(({ href, label }) => (
+        {/* Centered links */}
+        <div className="flex-1 flex flex-col items-center justify-center gap-6">
+          {mobileLinks.map(({ href, label }, i) => (
             <Link
               key={href}
               href={href}
-              onClick={() => setMenuOpen(false)}
-              className="font-display text-2xl tracking-wide font-light text-amal-cream/70 hover:text-amal-cream transition-colors duration-[400ms] ease-out"
+              onClick={() => setIsOpen(false)}
+              className="font-display text-3xl md:text-4xl font-light tracking-[0.1em] text-white/70 hover:text-white transition-colors duration-[400ms]"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                opacity: isOpen ? 1 : 0,
+                transform: isOpen ? "translateY(0)" : "translateY(20px)",
+                transition: `opacity 500ms ease ${i * 0.06}s, transform 500ms ease ${i * 0.06}s, color 400ms`,
+              }}
             >
               {label}
             </Link>
           ))}
-        </nav>
+        </div>
+
+        {/* Bottom accent */}
+        <div className="flex flex-col items-center pb-16">
+          <div className="w-12 h-px bg-white/10 mb-8" />
+          <span className="font-body text-[10px] uppercase tracking-[0.3em] text-white/20">
+            New York
+          </span>
+        </div>
       </div>
     </>
   );
