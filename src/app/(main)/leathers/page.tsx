@@ -222,39 +222,6 @@ export default function LeathersPage() {
         overflowY: isMobile ? "auto" : "hidden",
       }}
     >
-      {/* Brand label */}
-      <Link
-        href="/"
-        style={{
-          position: "fixed",
-          top: 24, left: 24,
-          zIndex: 50,
-          fontFamily: "var(--font-display)",
-          fontSize: "0.875rem",
-          letterSpacing: "0.3em",
-          color: "rgba(245,240,235,0.3)",
-          textDecoration: "none",
-        }}
-      >
-        AMAL
-      </Link>
-
-      {/* Archive label */}
-      <span
-        style={{
-          position: "fixed",
-          top: 28, right: 24,
-          zIndex: 50,
-          fontFamily: "var(--font-body)",
-          fontSize: 10,
-          textTransform: "uppercase",
-          letterSpacing: "0.25em",
-          color: "rgba(245,240,235,0.3)",
-        }}
-      >
-        Leather Archive
-      </span>
-
       {/* Quilt grid */}
       <div
         style={{

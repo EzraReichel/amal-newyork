@@ -55,7 +55,7 @@ export default function Navbar() {
     <>
       {/* ── Desktop Navbar (lg+) ─────────────────────────────────── */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 h-[70px] px-10 lg:px-16 hidden lg:flex items-center justify-between transition-all duration-500 ease-in-out ${bgClass}`}
+        className={`fixed top-0 left-0 right-0 z-[200] h-[70px] px-10 lg:px-16 hidden lg:flex items-center justify-between transition-all duration-500 ease-in-out ${bgClass}`}
       >
         <div className="flex items-center gap-10">
           {desktopLeft.map(({ href, label }) => (
@@ -80,7 +80,7 @@ export default function Navbar() {
 
       {/* ── Mobile Navbar (<lg) ──────────────────────────────────── */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 h-[60px] px-6 flex lg:hidden items-center justify-between transition-all duration-500 ease-in-out ${bgClass}`}
+        className={`fixed top-0 left-0 right-0 z-[200] h-[60px] px-6 flex lg:hidden items-center justify-between transition-all duration-500 ease-in-out ${bgClass}`}
       >
         {/* Hamburger */}
         <button
@@ -105,7 +105,7 @@ export default function Navbar() {
 
       {/* ── Mobile Menu Overlay ──────────────────────────────────── */}
       <div
-        className="fixed inset-0 z-[60] flex flex-col backdrop-blur-xl lg:hidden"
+        className="fixed inset-0 z-[210] flex flex-col backdrop-blur-xl lg:hidden"
         style={{
           background: "rgba(0,0,0,0.98)",
           opacity: isOpen ? 1 : 0,
