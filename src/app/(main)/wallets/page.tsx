@@ -91,35 +91,6 @@ function WalletCard({
         }}>Sold</div>
       )}
 
-      {/* Hover info overlay */}
-      <div style={{
-        position: "absolute", bottom: 0, left: 0, right: 0,
-        padding: "40px 14px 16px",
-        background: "linear-gradient(to top, rgba(0,0,0,0.85) 60%, transparent)",
-        opacity: isHovered ? 1 : 0,
-        transform: isHovered ? "translateY(0)" : "translateY(8px)",
-        transition: "opacity 300ms ease, transform 300ms ease",
-        pointerEvents: "none",
-      }}>
-        <p style={{ fontFamily: "var(--font-display)", fontSize: "15px", fontWeight: 300, color: "#F5F0EB", margin: 0, letterSpacing: "0.03em" }}>
-          {wallet.name}
-        </p>
-        <p style={{ fontFamily: "var(--font-body)", fontSize: "9px", textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(184,160,128,0.7)", marginTop: "4px" }}>
-          {wallet.leather} · {wallet.color}
-        </p>
-        <p style={{ fontFamily: "var(--font-display)", fontSize: "13px", fontWeight: 300, color: "rgba(245,240,235,0.7)", marginTop: "6px" }}>
-          ${wallet.price.toLocaleString()}
-        </p>
-        {wallet.inStock ? (
-          <p style={{ fontFamily: "var(--font-body)", fontSize: "8px", textTransform: "uppercase", letterSpacing: "0.18em", color: "rgba(184,160,128,0.5)", marginTop: "4px" }}>
-            View in Shop →
-          </p>
-        ) : (
-          <p style={{ fontFamily: "var(--font-body)", fontSize: "8px", textTransform: "uppercase", letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", marginTop: "4px" }}>
-            Sold Out
-          </p>
-        )}
-      </div>
     </div>
   );
 }
@@ -190,9 +161,61 @@ export default function WalletsPage() {
       paddingTop: "70px",              // clear navbar
       boxSizing: "border-box",
       display: "flex",
+      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
     }}>
+      {/* Info bar — above the spread */}
+      <div style={{
+        height: 80,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: 900,
+        flexShrink: 0,
+        paddingBottom: 16,
+      }}>
+        {hoveredIndex !== null ? (
+          <>
+            <div style={{
+              opacity: 1,
+              transform: "translateY(0)",
+              transition: "opacity 300ms ease, transform 300ms ease",
+            }}>
+              <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1rem, 2vw, 1.4rem)", fontWeight: 300, color: "#F5F0EB", margin: 0, letterSpacing: "0.04em" }}>
+                {wallets[hoveredIndex].name}
+              </p>
+              <p style={{ fontFamily: "var(--font-body)", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(184,160,128,0.6)", marginTop: "5px" }}>
+                {wallets[hoveredIndex].leather} · {wallets[hoveredIndex].color}
+              </p>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <p style={{ fontFamily: "var(--font-display)", fontSize: "1.2rem", fontWeight: 300, color: "#F5F0EB", margin: 0 }}>
+                ${wallets[hoveredIndex].price.toLocaleString()}
+              </p>
+              {wallets[hoveredIndex].inStock ? (
+                <Link
+                  href={`/shop/${wallets[hoveredIndex].id}`}
+                  style={{ fontFamily: "var(--font-body)", fontSize: "9px", textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(184,160,128,0.5)", display: "inline-block", marginTop: "6px", transition: "color 400ms" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(184,160,128,1)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(184,160,128,0.5)")}
+                >
+                  View in Shop →
+                </Link>
+              ) : (
+                <p style={{ fontFamily: "var(--font-body)", fontSize: "9px", textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.2)", marginTop: "6px" }}>
+                  Sold Out
+                </p>
+              )}
+            </div>
+          </>
+        ) : (
+          <p style={{ fontFamily: "var(--font-editorial)", fontStyle: "italic", fontSize: "13px", color: "rgba(245,240,235,0.15)", margin: 0 }}>
+            Hover a wallet to explore
+          </p>
+        )}
+      </div>
+
       {/* Spread container — centered in the space below navbar */}
       <div
         onMouseLeave={() => setHoveredIndex(null)}
