@@ -23,10 +23,10 @@ export default function Navbar() {
   }, [menuOpen]);
 
   const navLinks = [
-    { label: "Collection", href: "/collections" },
+    { label: "Shop", href: "/shop" },
     { label: "Leather Archive", href: "/leathers" },
+    { label: "Collections", href: "/journal" },
     { label: "World", href: "/world" },
-    { label: "Journal", href: "/journal" },
   ];
 
   const leftLinks = navLinks.slice(0, 2);
