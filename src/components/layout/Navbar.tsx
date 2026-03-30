@@ -30,17 +30,21 @@ export default function Navbar() {
   }, [menuOpen]);
 
   const leftLinks = [
-    { label: "Shop", href: "/shop" },
-    { label: "Collections", href: "/collections" },
+    { label: "Shop All", href: "/shop" },
+    { label: "Wallets", href: "/wallets" },
+    { label: "Belts", href: "/belts" },
   ];
 
   const rightLinks = [
+    { label: "Collections", href: "/collections" },
     { label: "Leather Archive", href: "/leathers" },
     { label: "World", href: "/world" },
   ];
 
   const mobileLinks = [
-    { label: "Shop", href: "/shop" },
+    { label: "Shop All", href: "/shop" },
+    { label: "Wallets", href: "/wallets" },
+    { label: "Belts", href: "/belts" },
     { label: "Collections", href: "/collections" },
     { label: "Leather Archive", href: "/leathers" },
     { label: "World", href: "/world" },

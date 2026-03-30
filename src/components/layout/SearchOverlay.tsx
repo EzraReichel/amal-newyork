@@ -5,14 +5,18 @@ import Link from "next/link";
 import { products, Product } from "@/lib/products";
 import { leathers, Leather } from "@/lib/leathers";
 import { articles, Article } from "@/lib/articles";
+import { belts, Belt } from "@/lib/belts";
+import { wallets, Wallet } from "@/lib/wallets";
 
 type Results = {
   products: Product[];
+  belts: Belt[];
+  wallets: Wallet[];
   leathers: Leather[];
   articles: Article[];
 };
 
-const EMPTY: Results = { products: [], leathers: [], articles: [] };
+const EMPTY: Results = { products: [], belts: [], wallets: [], leathers: [], articles: [] };
 
 export default function SearchOverlay({
   isOpen,
@@ -56,7 +60,13 @@ export default function SearchOverlay({
       setResults({
         products: products.filter((p) =>
           [p.name, p.leather, p.color, p.category, ...p.tags].some((v) => v.toLowerCase().includes(lq))
-        ).slice(0, 5),
+        ).slice(0, 3),
+        belts: belts.filter((b) =>
+          [b.name, b.leather, b.color, b.buckle].some((v) => v.toLowerCase().includes(lq))
+        ).slice(0, 3),
+        wallets: wallets.filter((w) =>
+          [w.name, w.leather, w.color, w.type].some((v) => v.toLowerCase().includes(lq))
+        ).slice(0, 3),
         leathers: leathers.filter((l) =>
           [l.name, l.nameEn, l.collection].some((v) => v.toLowerCase().includes(lq))
         ).slice(0, 4),
@@ -69,6 +79,8 @@ export default function SearchOverlay({
 
   const hasResults =
     results.products.length > 0 ||
+    results.belts.length > 0 ||
+    results.wallets.length > 0 ||
     results.leathers.length > 0 ||
     results.articles.length > 0;
 
@@ -187,9 +199,27 @@ export default function SearchOverlay({
 
         {results.products.length > 0 && (
           <div style={{ marginBottom: "24px" }}>
-            <SectionHeader label="Products" />
+            <SectionHeader label="Shop" />
             {results.products.map((p) => (
               <ResultRow key={p.id} left={p.name} right={`$${p.price.toLocaleString()}`} href={`/shop/${p.id}`} />
+            ))}
+          </div>
+        )}
+
+        {results.belts.length > 0 && (
+          <div style={{ marginBottom: "24px" }}>
+            <SectionHeader label="Belts" />
+            {results.belts.map((b) => (
+              <ResultRow key={b.id} left={b.name} right={`$${b.price.toLocaleString()}`} href={`/belts`} />
+            ))}
+          </div>
+        )}
+
+        {results.wallets.length > 0 && (
+          <div style={{ marginBottom: "24px" }}>
+            <SectionHeader label="Wallets" />
+            {results.wallets.map((w) => (
+              <ResultRow key={w.id} left={w.name} right={`$${w.price.toLocaleString()}`} href={`/wallets`} />
             ))}
           </div>
         )}
