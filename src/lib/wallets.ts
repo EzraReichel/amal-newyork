@@ -14,16 +14,17 @@ export type Wallet = {
   gradientTo: string;
 };
 
-// Resting pile offsets — organic, not grid-like
+// Fanned spread offsets — 2 loose rows of 4, all wallets visible
+// Container is ~1000px × 480px centered on screen
 export const PILE_OFFSETS: { x: number; y: number; rotate: number }[] = [
-  { x: 0,    y: 0,   rotate: 0    },
-  { x: 8,    y: -5,  rotate: 2    },
-  { x: -12,  y: 3,   rotate: -3   },
-  { x: 5,    y: -8,  rotate: 1.5  },
-  { x: -6,   y: 6,   rotate: -1   },
-  { x: 10,   y: 2,   rotate: 2.5  },
-  { x: -3,   y: -4,  rotate: -2   },
-  { x: 7,    y: 5,   rotate: 0.5  },
+  { x: -390, y: -80,  rotate: -7  },  // row 1, far left
+  { x: -210, y: -90,  rotate: -2  },  // row 1, left-center
+  { x: -30,  y: -85,  rotate:  4  },  // row 1, right-center
+  { x:  155, y: -75,  rotate: -1  },  // row 1, far right
+  { x: -310, y:  85,  rotate:  6  },  // row 2, far left
+  { x: -120, y:  92,  rotate: -4  },  // row 2, left-center
+  { x:  65,  y:  88,  rotate:  2  },  // row 2, right-center
+  { x:  255, y:  78,  rotate: -5  },  // row 2, far right
 ];
 
 export const wallets: Wallet[] = [

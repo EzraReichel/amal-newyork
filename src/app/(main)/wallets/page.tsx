@@ -29,20 +29,14 @@ function WalletCard({
   index: number;
   isHovered: boolean;
   anyHovered: boolean;
-  pileHovered: boolean;
   onEnter: () => void;
   onLeave: () => void;
   cardRef: (el: HTMLDivElement | null) => void;
 }) {
   const offset = PILE_OFFSETS[index] ?? { x: 0, y: 0, rotate: 0 };
 
-  // Breathing: when pile is hovered but no specific card is hovered,
-  // shift slightly outward in the card's offset direction
-  const breathX = pileHovered && !anyHovered ? offset.x * 0.8 : 0;
-  const breathY = pileHovered && !anyHovered ? offset.y * 0.8 : 0;
-
-  let tx = offset.x + breathX;
-  let ty = offset.y + breathY;
+  let tx = offset.x;
+  let ty = offset.y;
   let rotate = offset.rotate;
   let scale = 1;
   let zIndex = index + 1;
@@ -50,15 +44,15 @@ function WalletCard({
   let boxShadow = "0 2px 10px rgba(0,0,0,0.3)";
 
   if (isHovered) {
-    tx = offset.x * 2;
-    ty = offset.y - 80;
+    tx = offset.x;
+    ty = offset.y - 60;
     rotate = 0;
-    scale = 1.15;
+    scale = 1.12;
     zIndex = 50;
     boxShadow = "0 15px 50px rgba(0,0,0,0.5), 0 5px 20px rgba(0,0,0,0.3)";
   } else if (anyHovered) {
-    ty = offset.y + 10;
-    opacity = 0.6;
+    ty = offset.y + 8;
+    opacity = 0.45;
   }
 
   const transform = `translate(${tx}px, ${ty}px) rotate(${rotate}deg) scale(${scale})`;
@@ -138,10 +132,11 @@ function DetailPanel({ wallet }: { wallet: Wallet | null }) {
   return (
     <div style={{
       opacity: wallet ? 1 : 0,
-      transform: wallet ? "translateX(0)" : "translateX(20px)",
+      transform: wallet ? "translateY(0)" : "translateY(10px)",
       transition: "opacity 300ms ease, transform 300ms ease",
       pointerEvents: wallet ? "auto" : "none",
       minWidth: 220,
+      textAlign: "center",
     }}>
       {wallet ? (
         <>
@@ -315,18 +310,18 @@ export default function WalletsPage() {
         <p style={{ fontFamily: "var(--font-display)", fontSize: "18px", letterSpacing: "0.3em", fontWeight: 300, color: "rgba(245,240,235,0.25)" }}>Wallets</p>
       </div>
 
-      {/* Pile + detail panel, centered */}
-      <div style={{ display: "flex", alignItems: "center", gap: "80px", position: "relative" }}>
+      {/* Fanned spread + detail panel */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "32px", position: "relative" }}>
 
-        {/* Pile */}
+        {/* Fanned spread */}
         <div
           ref={pileRef}
           onMouseEnter={() => setPileHovered(true)}
           onMouseLeave={() => { setPileHovered(false); setHoveredIndex(null); }}
           style={{
             position: "relative",
-            width: 500,
-            height: 400,
+            width: 900,
+            height: 520,
             flexShrink: 0,
           }}
         >
@@ -337,7 +332,6 @@ export default function WalletsPage() {
               index={i}
               isHovered={hoveredIndex === i}
               anyHovered={hoveredIndex !== null}
-              pileHovered={pileHovered}
               onEnter={() => setHoveredIndex(i)}
               onLeave={() => setHoveredIndex(null)}
               cardRef={refCallbacks.current[i]}
@@ -345,8 +339,8 @@ export default function WalletsPage() {
           ))}
         </div>
 
-        {/* Detail panel */}
-        <div style={{ width: 280 }}>
+        {/* Detail panel — below the spread */}
+        <div style={{ width: 320, textAlign: "center" }}>
           <DetailPanel wallet={hoveredWallet} />
         </div>
       </div>
