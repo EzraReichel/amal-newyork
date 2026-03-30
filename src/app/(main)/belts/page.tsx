@@ -285,10 +285,6 @@ export default function BeltsPage() {
   return (
     <div ref={containerRef} style={{ width: "100vw", height: "100vh", overflow: "hidden", backgroundColor: "#0A0A0A", position: "relative" }}>
 
-      {/* Floating header */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, height: "70px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
-        <p style={{ fontFamily: "var(--font-display)", fontSize: "18px", letterSpacing: "0.3em", fontWeight: 300, color: "rgba(245,240,235,0.25)" }}>Belts</p>
-      </div>
 
       {/* Bookmark shelf */}
       <div
@@ -310,7 +306,7 @@ export default function BeltsPage() {
             width: "100%", height: "100%",
             overflowX: "auto", overflowY: "hidden",
             display: "flex", alignItems: "center",
-            paddingLeft: "20vw", paddingRight: "20vw",
+            paddingLeft: "50vw", paddingRight: "50vw",
             cursor: "grab",
             userSelect: "none",
             scrollbarWidth: "none",
