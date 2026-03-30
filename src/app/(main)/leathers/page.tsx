@@ -217,9 +217,10 @@ export default function LeathersPage() {
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "#0A0A0A",
+        backgroundColor: "#1A1A1A",
         overflowX: "hidden",
-        overflowY: isMobile ? "auto" : "hidden",
+        overflowY: "auto",
+        paddingTop: "70px",
       }}
     >
       {/* Quilt grid */}
@@ -229,8 +230,8 @@ export default function LeathersPage() {
           gridTemplateColumns: `repeat(${grid.cols}, 1fr)`,
           gridTemplateRows: `repeat(${grid.rows}, 1fr)`,
           width: "100vw",
-          height: isMobile ? `${grid.rows * 80}px` : "100vh",
-          minHeight: "100vh",
+          height: isMobile ? `${grid.rows * 80}px` : "calc(100vh - 70px)",
+          minHeight: "calc(100vh - 70px)",
           gap: 0,
         }}
       >
