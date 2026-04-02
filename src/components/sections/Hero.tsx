@@ -67,7 +67,7 @@ export default function Hero() {
             fontWeight: 300,
             lineHeight: 1.1,
             letterSpacing: "0.06em",
-            color: "#F5F0EB",
+            color: "var(--t-text)",
           }}
         >
           Amal

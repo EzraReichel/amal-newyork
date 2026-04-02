@@ -100,8 +100,8 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
             style={{
               position: "absolute",
               inset: 0,
-              backgroundColor: "#1A1A1A",
-              border: "1px solid rgba(196,162,101,0.15)",
+              backgroundColor: "var(--t-bg-card)",
+              border: "1px solid color-mix(in srgb, var(--t-accent) 15%, transparent)",
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
@@ -120,7 +120,7 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(13px, 1.6vw, 22px)",
                 fontWeight: 300,
-                color: "#F5F0EB",
+                color: "var(--t-text)",
                 letterSpacing: "0.05em",
                 lineHeight: 1.2,
               }}
@@ -166,6 +166,22 @@ function LeatherSwatch({ leather, index }: { leather: Leather; index: number }) 
               }}
             >
               {leather.origin}
+            </span>
+            {/* Click hint */}
+            <span
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "clamp(8px, 0.65vw, 10px)",
+                textTransform: "uppercase",
+                letterSpacing: "0.18em",
+                color: "rgba(196,162,101,0.5)",
+                marginTop: 12,
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              Click for details →
             </span>
           </div>
 
@@ -217,7 +233,7 @@ export default function LeathersPage() {
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "#1A1A1A",
+        backgroundColor: "var(--t-bg-card)",
         overflowX: "hidden",
         overflowY: "auto",
         paddingTop: "70px",

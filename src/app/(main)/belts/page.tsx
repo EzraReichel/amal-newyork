@@ -4,7 +4,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { belts, Belt } from "@/lib/belts";
+import { belts, BeltProduct } from "@/data/products";
 
 gsap.registerPlugin(useGSAP);
 
@@ -17,7 +17,7 @@ function BeltBookmark({
   onClickIndex,
   beltRef,
 }: {
-  belt: Belt;
+  belt: BeltProduct;
   index: number;
   isActive: boolean;
   onClickIndex: (i: number) => void;
@@ -42,6 +42,7 @@ function BeltBookmark({
         overflow: "hidden",
         cursor: "pointer",
         position: "relative",
+        backgroundColor: "var(--t-bg-card)",
         transition: [
           "width 500ms cubic-bezier(0.16, 1, 0.3, 1)",
           "transform 500ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -57,13 +58,37 @@ function BeltBookmark({
         verticalAlign: "middle",
       }}
     >
-      {/* TODO: Replace gradient placeholders with real belt photography */}
-      {/* Belt gradient — vertical, simulates leather surface */}
-      <div
+      {/* Coiled image — visible when inactive */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={belt.imageCoiled}
+        alt={belt.name + " coiled"}
         style={{
           position: "absolute",
           inset: 0,
-          background: `linear-gradient(to bottom, ${belt.gradientFrom} 0%, ${belt.gradientTo} 100%)`,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: isActive ? 0 : 1,
+          transition: "opacity 500ms ease",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Unrolled image — visible when active */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={belt.imageUnrolled}
+        alt={belt.name + " unrolled"}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: isActive ? 1 : 0,
+          transition: "opacity 500ms ease",
+          pointerEvents: "none",
         }}
       />
 
@@ -91,17 +116,6 @@ function BeltBookmark({
         }}
       />
 
-      {/* Subtle leather texture overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0,0,0,0.03) 8px, rgba(0,0,0,0.03) 9px)",
-          zIndex: 1,
-          pointerEvents: "none",
-        }}
-      />
-
       {/* Index number on spine */}
       <span
         style={{
@@ -125,7 +139,7 @@ function BeltBookmark({
       </span>
 
       {/* Sold indicator */}
-      {!belt.inStock && (
+      {belt.stock !== 'in_stock' && (
         <div
           style={{
             position: "absolute",
@@ -198,7 +212,7 @@ export default function BeltsPage() {
 
   const handleClickIndex = useCallback((index: number) => {
     if (hasDragged.current) return;
-    if (index === activeIndex) return; // navigate handled via Link on active belt
+    if (index === activeIndex) return;
     const el = bookmarkRefs.current[index];
     const container = scrollRef.current;
     if (!el || !container) return;
@@ -257,19 +271,25 @@ export default function BeltsPage() {
 
   if (isMobile) {
     return (
-      <div style={{ backgroundColor: "#0A0A0A", minHeight: "100vh", paddingTop: "80px" }}>
+      <div style={{ backgroundColor: "var(--t-bg)", minHeight: "100vh", paddingTop: "80px" }}>
         <div style={{ textAlign: "center", padding: "16px 0 24px" }}>
           <p style={{ fontFamily: "var(--font-display)", fontSize: "18px", letterSpacing: "0.3em", fontWeight: 300, color: "rgba(245,240,235,0.25)" }}>Belts</p>
         </div>
         {belts.map((belt) => (
-          <Link key={belt.id} href={`/shop/${belt.id}`} style={{ display: "block", marginBottom: "16px", position: "relative" }}>
+          <Link key={belt.id} href={`/shop/${belt.slug}`} style={{ display: "block", marginBottom: "16px", position: "relative" }}>
             <div style={{
               width: "100%", aspectRatio: "1/3",
-              background: `linear-gradient(to bottom, ${belt.gradientFrom}, ${belt.gradientTo})`,
+              backgroundColor: "var(--t-bg-card)",
               position: "relative", overflow: "hidden",
             }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={belt.imageCoiled}
+                alt={belt.name}
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+              />
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "32px 20px 20px", background: "linear-gradient(to top, rgba(0,0,0,0.7), transparent)" }}>
-                <p style={{ fontFamily: "var(--font-display)", fontSize: "16px", fontWeight: 300, color: "#F5F0EB" }}>{belt.name}</p>
+                <p style={{ fontFamily: "var(--font-display)", fontSize: "16px", fontWeight: 300, color: "var(--t-text)" }}>{belt.name}</p>
                 <p style={{ fontFamily: "var(--font-body)", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(184,160,128,0.6)", marginTop: "4px" }}>{belt.leather} · {belt.color}</p>
                 <p style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "rgba(245,240,235,0.6)", marginTop: "6px" }}>${belt.price.toLocaleString()}</p>
               </div>
@@ -283,8 +303,7 @@ export default function BeltsPage() {
   // ── Desktop Cover Flow ───────────────────────────────────────────────────
 
   return (
-    <div ref={containerRef} style={{ width: "100vw", height: "100vh", overflow: "hidden", backgroundColor: "#0A0A0A", position: "relative" }}>
-
+    <div ref={containerRef} style={{ width: "100vw", height: "100vh", overflow: "hidden", backgroundColor: "var(--t-bg)", position: "relative" }}>
 
       {/* Bookmark shelf */}
       <div
@@ -326,9 +345,9 @@ export default function BeltsPage() {
         </div>
 
         {/* Left fade */}
-        <div style={{ position: "absolute", top: 0, left: 0, width: 120, height: "100%", background: "linear-gradient(to right, #0A0A0A 20%, transparent)", pointerEvents: "none", zIndex: 20 }} />
+        <div style={{ position: "absolute", top: 0, left: 0, width: 120, height: "100%", background: "linear-gradient(to right, var(--t-bg) 20%, transparent)", pointerEvents: "none", zIndex: 20 }} />
         {/* Right fade */}
-        <div style={{ position: "absolute", top: 0, right: 0, width: 120, height: "100%", background: "linear-gradient(to left, #0A0A0A 20%, transparent)", pointerEvents: "none", zIndex: 20 }} />
+        <div style={{ position: "absolute", top: 0, right: 0, width: 120, height: "100%", background: "linear-gradient(to left, var(--t-bg) 20%, transparent)", pointerEvents: "none", zIndex: 20 }} />
       </div>
 
       {/* Active belt info — bottom bar */}
@@ -337,8 +356,7 @@ export default function BeltsPage() {
           position: "fixed",
           bottom: 0, left: 0, right: 0,
           zIndex: 40,
-          background: "linear-gradient(to top, rgba(10,10,10,0.9) 60%, transparent)",
-          paddingTop: "64px", paddingBottom: "32px",
+          background: "var(--t-belt-bar-bg)",
           padding: "64px 64px 32px",
           display: "flex", alignItems: "flex-end", justifyContent: "space-between",
           pointerEvents: "none",
@@ -346,23 +364,23 @@ export default function BeltsPage() {
       >
         {/* Left */}
         <div key={activeIndex} style={{ animation: "belt-info-in 300ms ease forwards", pointerEvents: "auto" }}>
-          <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.25rem, 3vw, 2rem)", fontWeight: 300, color: "#F5F0EB", letterSpacing: "0.05em", margin: 0 }}>
+          <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.25rem, 3vw, 2rem)", fontWeight: 300, color: "var(--t-text)", letterSpacing: "0.05em", margin: 0 }}>
             {active.name}
           </p>
           <p style={{ fontFamily: "var(--font-body)", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(184,160,128,0.6)", marginTop: "6px" }}>
             {active.leather} · {active.color}
           </p>
           <p style={{ fontFamily: "var(--font-editorial)", fontStyle: "italic", fontSize: "13px", color: "rgba(245,240,235,0.35)", marginTop: "8px", maxWidth: "420px", lineHeight: 1.6 }}>
-            {active.description}
+            {active.leather} leather
           </p>
         </div>
 
         {/* Right */}
         <div key={`r-${activeIndex}`} style={{ textAlign: "right", animation: "belt-info-in 300ms ease forwards", pointerEvents: "auto" }}>
-          <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", fontWeight: 300, color: "#F5F0EB", margin: 0 }}>
+          <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", fontWeight: 300, color: "var(--t-text)", margin: 0 }}>
             ${active.price.toLocaleString()}
           </p>
-          {active.inStock ? (
+          {active.stock === 'in_stock' ? (
             <p style={{ fontFamily: "var(--font-body)", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(61,61,61,0.8)", marginTop: "8px" }}>
               {active.sizes.join(" · ")}
             </p>
@@ -372,7 +390,7 @@ export default function BeltsPage() {
             </p>
           )}
           <Link
-            href={`/shop/${active.id}`}
+            href={'/shop/' + active.slug}
             style={{
               display: "inline-block",
               fontFamily: "var(--font-body)", fontSize: "10px",

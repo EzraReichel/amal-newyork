@@ -54,7 +54,7 @@ export default function CollectionsPage() {
   const highlightProducts = products.filter((p) => p.isNew).slice(0, 2);
 
   return (
-    <div style={{ backgroundColor: "#0A0A0A", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "var(--t-bg)", minHeight: "100vh" }}>
 
       {/* ── Section A: Hero ── */}
       <section style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
@@ -93,7 +93,7 @@ export default function CollectionsPage() {
           </p>
           <h1 style={{
             fontFamily: "var(--font-display)", fontSize: "clamp(2.5rem, 8vw, 5.5rem)",
-            fontWeight: 300, color: "#F5F0EB",
+            fontWeight: 300, color: "var(--t-text)",
             letterSpacing: "0.04em", lineHeight: 1.05, margin: 0,
           }}>
             {current.title}
@@ -136,7 +136,7 @@ export default function CollectionsPage() {
         style={{
           minHeight: "100vh",
           display: "flex", alignItems: "center", justifyContent: "center",
-          backgroundColor: "#0A0A0A",
+          backgroundColor: "var(--t-bg)",
           padding: "96px 32px",
         }}
       >
@@ -166,7 +166,7 @@ export default function CollectionsPage() {
       </section>
 
       {/* ── Section C: Editorial Grid ── */}
-      <section style={{ minHeight: "100vh", backgroundColor: "#0E0E0E", padding: "80px 64px" }}>
+      <section style={{ minHeight: "100vh", backgroundColor: "var(--t-bg-card)", padding: "80px 64px" }}>
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
@@ -239,7 +239,7 @@ export default function CollectionsPage() {
       <section style={{
         height: "60vh",
         display: "flex", alignItems: "center", justifyContent: "center",
-        backgroundColor: "#0A0A0A",
+        backgroundColor: "var(--t-bg)",
       }}>
         <Link
           href="/shop"
@@ -272,7 +272,7 @@ export default function CollectionsPage() {
       <section style={{
         borderTop: "1px solid rgba(61,61,61,0.08)",
         padding: "64px 64px 80px",
-        backgroundColor: "#0A0A0A",
+        backgroundColor: "var(--t-bg)",
       }}>
         <div>
           <h2 style={{

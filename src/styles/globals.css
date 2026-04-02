@@ -2,6 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Theme A: Dark Flagship ─── */
+[data-theme="a"] {
+  --t-bg: #0A0A0A;
+  --t-bg-card: #1A1A1A;
+  --t-border: #2A2A2A;
+  --t-muted: #3D3D3D;
+  --t-accent: #C4A265;
+  --t-text-soft: #B8A080;
+  --t-text: #FAF7F2;
+  --t-hero: #FAFAF8;
+  --font-display: var(--font-cormorant-garamond);
+  --font-body: var(--font-montserrat);
+  --font-editorial: var(--font-cormorant);
+  --t-nav-link: rgba(255,255,255,0.75);
+  --t-nav-link-hover: rgba(255,255,255,0.97);
+  --t-nav-bg-default: transparent;
+  --t-nav-bg-scrolled: rgba(0,0,0,0.88);
+  --t-nav-mobile-bg: rgba(0,0,0,0.97);
+  --t-nav-logo: rgba(255,255,255,0.95);
+  --t-nav-icon: rgba(255,255,255,0.6);
+  --t-nav-icon-hover: rgba(255,255,255,0.95);
+  --t-nav-ham: rgba(255,255,255,0.8);
+  --t-nav-divider: rgba(255,255,255,0.12);
+  --t-nav-tagline: rgba(255,255,255,0.35);
+  --t-belt-bar-bg: linear-gradient(to top, rgba(10,10,10,0.9) 60%, transparent);
+}
+
+/* ── Theme B: Light Atelier ─── */
+[data-theme="b"] {
+  --t-bg: #FAFAF8;
+  --t-bg-card: #F5F0EB;
+  --t-border: #EDE6DB;
+  --t-muted: #D4C5B0;
+  --t-accent: #8B7355;
+  --t-text-soft: #5C5347;
+  --t-text: #1A1A1A;
+  --t-hero: #0A0A0A;
+  --font-display: var(--font-playfair);
+  --font-body: var(--font-poppins);
+  --font-editorial: var(--font-playfair);
+  --t-nav-link: rgba(0,0,0,0.45);
+  --t-nav-link-hover: rgba(0,0,0,0.85);
+  --t-nav-bg-default: rgba(250,250,248,1);
+  --t-nav-bg-scrolled: rgba(250,250,248,0.95);
+  --t-nav-mobile-bg: rgba(250,250,248,0.98);
+  --t-nav-logo: rgba(0,0,0,0.85);
+  --t-nav-icon: rgba(0,0,0,0.3);
+  --t-nav-icon-hover: rgba(0,0,0,0.65);
+  --t-nav-ham: rgba(0,0,0,0.65);
+  --t-nav-divider: rgba(0,0,0,0.08);
+  --t-nav-tagline: rgba(0,0,0,0.2);
+  --t-belt-bar-bg: linear-gradient(to top, rgba(250,250,248,0.92) 60%, transparent);
+}
+
+/* ── Theme C: Warm Editorial ─── */
+[data-theme="c"] {
+  --t-bg: #1C1612;
+  --t-bg-card: #2A2118;
+  --t-border: #3D3028;
+  --t-muted: #5C4A38;
+  --t-accent: #D4943A;
+  --t-text-soft: #C8B89A;
+  --t-text: #F0E6D8;
+  --t-hero: #FAF3E8;
+  --font-display: var(--font-libre-baskerville);
+  --font-body: var(--font-montserrat);
+  --font-editorial: var(--font-dm-serif);
+  --t-nav-link: rgba(240,230,216,0.75);
+  --t-nav-link-hover: rgba(240,230,216,0.97);
+  --t-nav-bg-default: transparent;
+  --t-nav-bg-scrolled: rgba(28,22,18,0.88);
+  --t-nav-mobile-bg: rgba(28,22,18,0.98);
+  --t-nav-logo: rgba(240,230,216,0.9);
+  --t-nav-icon: rgba(240,230,216,0.35);
+  --t-nav-icon-hover: rgba(240,230,216,0.7);
+  --t-nav-ham: rgba(240,230,216,0.7);
+  --t-nav-divider: rgba(240,230,216,0.1);
+  --t-nav-tagline: rgba(240,230,216,0.2);
+  --t-belt-bar-bg: linear-gradient(to top, rgba(28,22,18,0.9) 60%, transparent);
+}
+
+/* ── Theme D: Vivid Luxe ─── */
+[data-theme="d"] {
+  --t-bg: #0F1A2E;
+  --t-bg-card: #1A2740;
+  --t-border: #243352;
+  --t-muted: #8B9F82;
+  --t-accent: #D4654A;
+  --t-text-soft: #C2B8A8;
+  --t-text: #F8F4EE;
+  --t-hero: #FDF9F3;
+  --font-display: var(--font-dm-serif);
+  --font-body: var(--font-poppins);
+  --font-editorial: var(--font-lora);
+  --t-nav-link: rgba(248,244,238,0.5);
+  --t-nav-link-hover: rgba(248,244,238,0.9);
+  --t-nav-bg-default: transparent;
+  --t-nav-bg-scrolled: rgba(15,26,46,0.88);
+  --t-nav-mobile-bg: rgba(15,26,46,0.98);
+  --t-nav-logo: rgba(248,244,238,0.9);
+  --t-nav-icon: rgba(248,244,238,0.35);
+  --t-nav-icon-hover: rgba(248,244,238,0.7);
+  --t-nav-ham: rgba(248,244,238,0.7);
+  --t-nav-divider: rgba(248,244,238,0.1);
+  --t-nav-tagline: rgba(248,244,238,0.2);
+  --t-belt-bar-bg: linear-gradient(to top, rgba(15,26,46,0.9) 60%, transparent);
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -12,8 +120,8 @@ a, a:visited, a:hover, a:active {
 }
 
 body {
-  background-color: #0A0A0A;
-  color: #F5F0EB;
+  background-color: var(--t-bg);
+  color: var(--t-text);
   font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
@@ -21,8 +129,8 @@ body {
 }
 
 ::selection {
-  background-color: rgba(196, 162, 101, 0.3);
-  color: #FAFAF8;
+  background-color: color-mix(in srgb, var(--t-accent) 30%, transparent);
+  color: var(--t-hero);
 }
 
 ::-webkit-scrollbar {
@@ -58,7 +166,7 @@ img {
   100% { transform: translateY(200%); opacity: 0; }
 }
 
-/* ── Leather quilt grid ───────────────────────────────────────── */
+/* ── Leather quilt grid ───────────────────────────────────────────────────────── */
 .leather-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -83,7 +191,7 @@ img {
   }
 }
 
-/* ── Swatch 3D flip ───────────────────────────────────────────── */
+/* ── Swatch 3D flip ───────────────────────────────────────────────────────────── */
 .swatch-item {
   position: relative;
   perspective: 900px;
@@ -122,17 +230,17 @@ img {
 
 @layer utilities {
   .section-dark {
-    background: #0A0A0A;
-    color: #F5F0EB;
+    background: var(--t-bg);
+    color: var(--t-text);
   }
 
   .section-light {
-    background: #FAF7F2;
-    color: #1A1A1A;
+    background: var(--t-hero);
+    color: var(--t-bg);
   }
 
   .section-warm {
-    background: #1A1A1A;
-    color: #D4C5B0;
+    background: var(--t-bg-card);
+    color: var(--t-text-soft);
   }
 }

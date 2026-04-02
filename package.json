@@ -3,7 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NEXT_PUBLIC_THEME=a next dev -p 3000",
+    "dev:a": "NEXT_PUBLIC_THEME=a next dev -p 3000",
+    "dev:b": "NEXT_PUBLIC_THEME=b next dev -p 3001",
+    "dev:c": "NEXT_PUBLIC_THEME=c next dev -p 3002",
+    "dev:d": "NEXT_PUBLIC_THEME=d next dev -p 3003",
+    "dev:all": "concurrently \"npm run dev:a\" \"npm run dev:b\" \"npm run dev:c\" \"npm run dev:d\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -21,6 +26,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^8.2.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "tailwindcss": "^4",

@@ -1,12 +1,12 @@
 export default function Footer() {
   return (
-    <footer className="bg-amal-charcoal py-8 px-6 md:px-12">
+    <footer style={{ backgroundColor: "var(--t-bg-card)", padding: "32px 24px" }}>
       <div className="flex items-center justify-between max-w-4xl mx-auto">
-        <span className="text-[10px] tracking-wide text-amal-ash/50">
+        <span style={{ fontSize: "10px", letterSpacing: "0.05em", color: "var(--t-muted)" }}>
           © 2025 Amal New York
         </span>
-        <span className="text-[10px] tracking-wide text-amal-ash/50">
-          Handcrafted in New York
+        <span style={{ fontSize: "10px", letterSpacing: "0.05em", color: "var(--t-muted)" }}>
+          Handcrafted in Italy
         </span>
       </div>
     </footer>

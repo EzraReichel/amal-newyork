@@ -80,7 +80,7 @@ function FilterDropdown({
             top: "calc(100% + 4px)",
             left: 0,
             zIndex: 50,
-            background: "#1A1A1A",
+            background: "var(--t-bg-card)",
             border: "1px solid rgba(61,61,61,0.15)",
             minWidth: "160px",
           }}
@@ -328,7 +328,7 @@ function MobileFilterPanel({
           zIndex: 39,
           maxHeight: "80vh",
           overflowY: "auto",
-          background: "#1A1A1A",
+          background: "var(--t-bg-card)",
           borderTop: "1px solid rgba(61,61,61,0.1)",
           borderRadius: "8px 8px 0 0",
           transform: open ? "translateY(0)" : "translateY(100%)",
@@ -531,7 +531,7 @@ export default function ShopPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#0A0A0A", paddingTop: "90px" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "var(--t-bg)", paddingTop: "90px" }}>
 
       {/* ── Page header ── */}
       <div style={{
@@ -549,7 +549,7 @@ export default function ShopPage() {
             fontFamily: "var(--font-display), Georgia, serif",
             fontSize: "clamp(2rem, 5vw, 3rem)",
             fontWeight: 300,
-            color: "#F5F0EB",
+            color: "var(--t-text)",
             letterSpacing: "0.05em",
             margin: 0,
           }}>
@@ -583,7 +583,7 @@ export default function ShopPage() {
           position: "sticky",
           top: "70px",
           zIndex: 30,
-          backgroundColor: "rgba(10,10,10,0.95)",
+          backgroundColor: "var(--t-nav-bg-scrolled)",
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
           borderBottom: "1px solid rgba(61,61,61,0.08)",

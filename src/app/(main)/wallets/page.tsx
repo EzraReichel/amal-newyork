@@ -115,7 +115,7 @@ export default function WalletsPage() {
 
   if (isMobile) {
     return (
-      <div style={{ backgroundColor: "#0A0A0A", minHeight: "100vh", paddingTop: "80px" }}>
+      <div style={{ backgroundColor: "var(--t-bg)", minHeight: "100vh", paddingTop: "80px" }}>
         {wallets.map((wallet, i) => (
           <div key={wallet.id} style={{ marginBottom: "16px" }}>
             <div
@@ -126,7 +126,7 @@ export default function WalletsPage() {
                 <span style={{ fontFamily: "var(--font-script)", fontSize: "80px", color: "rgba(255,255,255,0.05)" }}>A</span>
               </div>
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "48px 20px 20px", background: "linear-gradient(to top, rgba(0,0,0,0.75), transparent)" }}>
-                <p style={{ fontFamily: "var(--font-display)", fontSize: "18px", fontWeight: 300, color: "#F5F0EB" }}>{wallet.name}</p>
+                <p style={{ fontFamily: "var(--font-display)", fontSize: "18px", fontWeight: 300, color: "var(--t-text)" }}>{wallet.name}</p>
                 <p style={{ fontFamily: "var(--font-body)", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(184,160,128,0.6)", marginTop: "4px" }}>{wallet.leather} · {wallet.color}</p>
                 <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "rgba(245,240,235,0.6)", marginTop: "6px" }}>${wallet.price.toLocaleString()}</p>
               </div>
@@ -157,7 +157,7 @@ export default function WalletsPage() {
       width: "100vw",
       height: "100vh",
       overflow: "hidden",
-      backgroundColor: "#0A0A0A",
+      backgroundColor: "var(--t-bg)",
       paddingTop: "70px",              // clear navbar
       boxSizing: "border-box",
       display: "flex",
@@ -182,7 +182,7 @@ export default function WalletsPage() {
               transform: "translateY(0)",
               transition: "opacity 300ms ease, transform 300ms ease",
             }}>
-              <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1rem, 2vw, 1.4rem)", fontWeight: 300, color: "#F5F0EB", margin: 0, letterSpacing: "0.04em" }}>
+              <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1rem, 2vw, 1.4rem)", fontWeight: 300, color: "var(--t-text)", margin: 0, letterSpacing: "0.04em" }}>
                 {wallets[hoveredIndex].name}
               </p>
               <p style={{ fontFamily: "var(--font-body)", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(184,160,128,0.6)", marginTop: "5px" }}>
@@ -190,7 +190,7 @@ export default function WalletsPage() {
               </p>
             </div>
             <div style={{ textAlign: "right" }}>
-              <p style={{ fontFamily: "var(--font-display)", fontSize: "1.2rem", fontWeight: 300, color: "#F5F0EB", margin: 0 }}>
+              <p style={{ fontFamily: "var(--font-display)", fontSize: "1.2rem", fontWeight: 300, color: "var(--t-text)", margin: 0 }}>
                 ${wallets[hoveredIndex].price.toLocaleString()}
               </p>
               {wallets[hoveredIndex].inStock ? (
